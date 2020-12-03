@@ -11,13 +11,17 @@ public class Assets {
 	
     public static ImageIcon iifondo;
     public static ImageIcon iimario;
+    public static ImageIcon iizombie;
+    public static ImageIcon iidisparo;
     
     
     public static AudioClip pun;
       
     public static void loadAssets() {
-		iifondo = new ImageIcon("assets/fondo.png");
+		iifondo = new ImageIcon("assets/2fondo.png");
 		iimario = new ImageIcon("assets/mariosheet.png");
+		iizombie = new ImageIcon("assets/zombiesheet.png");
+		iidisparo = new ImageIcon("assets/disparosheet.png");
 		
 		try {
 			pun = Applet.newAudioClip(new File("assets/pun.wav").toURI().toURL());

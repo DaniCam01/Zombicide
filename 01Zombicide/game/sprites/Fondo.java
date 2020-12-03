@@ -6,7 +6,14 @@ import util.Assets;
 import util.Constant;
 
 public class Fondo {
-	private int x = 0;
+	private int x = util.Constant.ANCHOFONDO/2-util.Constant.WIDTHSCREEN/2;
+	
+	//Mapa1
+	//private int y= 0;
+	//Mapa 2
+	private int y = util.Constant.HEIGHTSCREEN-16;
+	
+	
 	private Image fondo = Assets.iifondo.getImage();
 	private int speed = 0;
 
@@ -14,8 +21,8 @@ public class Fondo {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(fondo, 0, 0, Constant.WIDTHSCREEN, Constant.HEIGHTSCREEN, x, 0, x + Constant.WIDTHSCREEN,
-				Constant.HEIGHTSCREEN, null);
+		g.drawImage(fondo, 0, 0, Constant.WIDTHSCREEN, Constant.HEIGHTSCREEN, 
+				x, y, x + Constant.WIDTHSCREEN, y+Constant.HEIGHTSCREEN, null);
 	}
 
 	public void update() {
@@ -31,10 +38,14 @@ public class Fondo {
 	}
 
 	public void left() {
-		speed = -5;
+		speed = -3;
 	}
 
 	public void right() {
-		speed = 5;
+		speed = 3;
+	}
+	
+	public void estatico() {
+		speed = 0;
 	}
 }
