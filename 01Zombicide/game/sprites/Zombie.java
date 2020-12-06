@@ -18,6 +18,7 @@ public class Zombie {
 	private int columnframe;
 	private Player personaje;
 	private boolean derecha;
+	private int velocidad;
 	//private int speed;
 
 	public Zombie(int posicionjugador) {
@@ -31,6 +32,7 @@ public class Zombie {
 			x= posicionjugador+x;
 			derecha = false;
 		}
+		velocidad = (int)(Math.random()*3+1);
 		columnframe = 0;
 		ANCHO = Assets.iizombie.getIconWidth() / COLUMNAS;
 		ALTO = Assets.iizombie.getIconHeight() / FILAS;
@@ -39,12 +41,17 @@ public class Zombie {
 	public void moove(){
 		rowFrame = 4;
 		if(derecha) {
-			x+=3;
+			x+=velocidad;
 		}else
-			x-=3;
+			x-=velocidad;
 		
 	}
-	
+	public void left() {
+		x-=3;
+	}
+	public void right() {
+		x+=3;
+	}
 
 	public void update() {
 		columnframe = ++columnframe % 8;
@@ -61,4 +68,5 @@ public class Zombie {
 		Rectangle recBola = new Rectangle(disparo.x, disparo.y, disparo.ANCHO, disparo.ALTO );
 		return recZombie.intersects(recBola);
 	}
+
 }

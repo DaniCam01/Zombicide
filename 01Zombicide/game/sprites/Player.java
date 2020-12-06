@@ -17,7 +17,7 @@ public class Player {
 	private final static int COLUMNAS = 9;
 	private final static int FILAS = 12;
 	protected int limitd = util.Constant.WIDTHSCREEN/2+100;
-	protected int limiti = util.Constant.WIDTHSCREEN/2-100-Assets.iimario.getIconWidth() / COLUMNAS;
+	protected int limiti = util.Constant.WIDTHSCREEN/2-100;
 	private int columnframe;
 	public boolean limite = false;
 	private boolean derecha = true;
@@ -32,13 +32,14 @@ public class Player {
 		y = 345;
 		y=335;
 		y=355;
+		limiti-=ANCHO;
+		limitd-=ANCHO/2;
 	}
 	public void left(){
 		rowFrame = 11;
 		derecha=false;
 		if(x-3 < limiti) {
-			limiti=x;
-			limitd=x+200+ANCHO/2;
+			x=limiti;
 		}else {
 			x-=3;
 		}
@@ -50,8 +51,7 @@ public class Player {
 		rowFrame = 5;
 		derecha = true;
 		if(x+3 > limitd) {
-			limitd=x;
-			limiti=x-200-ANCHO;
+			x=limitd;
 		}else {
 			x+=3;
 		}

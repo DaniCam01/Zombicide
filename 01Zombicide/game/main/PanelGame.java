@@ -67,6 +67,9 @@ public class PanelGame extends JPanel {
 			 posicionjugador = player.getX();
 			if(player.limite) {
 				fondo.right();
+				for(Zombie zombie : zombies) {
+					zombie.left();
+				}
 			}
 		}
 		if (input.isKeyDown(KeyEvent.VK_LEFT)) {
@@ -75,6 +78,9 @@ public class PanelGame extends JPanel {
 			posicionjugador = player.getX();
 			if(player.limite) {
 				fondo.left();
+				for(Zombie zombie : zombies) {
+					zombie.right();
+				}
 			}
 		}
 		
