@@ -48,4 +48,8 @@ public class Fondo {
 	public void estatico() {
 		speed = 0;
 	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
 }

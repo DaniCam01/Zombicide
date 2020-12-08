@@ -13,6 +13,7 @@ public class Assets {
     public static ImageIcon iimario;
     public static ImageIcon iizombie;
     public static ImageIcon iidisparo;
+    public static ImageIcon iibotiquin;
     
     
     public static AudioClip pun;
@@ -22,6 +23,7 @@ public class Assets {
 		iimario = new ImageIcon("assets/mariosheet.png");
 		iizombie = new ImageIcon("assets/zombiesheet.png");
 		iidisparo = new ImageIcon("assets/disparosheet.png");
+		iibotiquin = new ImageIcon("assets/botiquin.png");
 		
 		try {
 			pun = Applet.newAudioClip(new File("assets/pun.wav").toURI().toURL());

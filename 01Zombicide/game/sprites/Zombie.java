@@ -19,7 +19,7 @@ public class Zombie {
 	private Player personaje;
 	private boolean derecha;
 	private int velocidad;
-	//private int speed;
+	private int speed=0;
 
 	public Zombie(int posicionjugador) {
 		x = (int)((Math.random()*1000)+500);
@@ -47,10 +47,10 @@ public class Zombie {
 		
 	}
 	public void left() {
-		x-=3;
+		x-=(3+speed);
 	}
 	public void right() {
-		x+=3;
+		x+=(3+speed);
 	}
 
 	public void update() {
@@ -69,4 +69,7 @@ public class Zombie {
 		return recZombie.intersects(recBola);
 	}
 
+	public void setSpeed(int speed) {
+		this.speed+=speed;
+	}
 }

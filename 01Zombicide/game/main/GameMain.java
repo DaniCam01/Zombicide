@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import sprites.Fondo;
 import util.Constant;
 
 @SuppressWarnings("serial")
@@ -17,6 +18,7 @@ public class GameMain extends JFrame implements ActionListener {
 
 	private Container container;
 	private JButton btnPlayPause;
+	private JButton btnChangeMap;
 	private JButton btnFin;
 	private JButton btnStart;
 	private PanelGame panelGame;
@@ -48,6 +50,10 @@ public class GameMain extends JFrame implements ActionListener {
 		btnStart.addActionListener(this);
 		panelFooter.add(btnStart);
 
+		btnChangeMap = new JButton("Change Map");
+		btnChangeMap.addActionListener(this);
+		panelFooter.add(btnChangeMap);
+		
 		btnPlayPause = new JButton("Play/Pause");
 		btnPlayPause.addActionListener(this);
 		btnPlayPause.setEnabled(false);
@@ -89,5 +95,9 @@ public class GameMain extends JFrame implements ActionListener {
 	private void btnFinOnClick() {
 		panelGame.isRunning = false;
 		System.exit(0);
+	}
+	
+	private void btnChangeMapOnClick() {
+		//panelGame.
 	}
 }

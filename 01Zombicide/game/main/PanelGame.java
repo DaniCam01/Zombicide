@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import input.InputHandler;
+import sprites.Botiquin;
 import sprites.Disparo;
 import sprites.Fondo;
 import sprites.Player;
@@ -41,6 +42,13 @@ public class PanelGame extends JPanel {
 	private int nacedisparo;
 	private final static int VECESDISPARO = 20;
 	private boolean salir=false;
+	private int vidas = 1;
+	private final static int VECESBOTIQUIN = 2000;
+	private int nacebotiquin= 400;
+	private Botiquin botiquin;
+	private ArrayList<Botiquin> botiquines;
+	private final static int VECESACELERACION = 500;
+	private int aceleracion;
 	
 	
 	public PanelGame() {
@@ -54,6 +62,7 @@ public class PanelGame extends JPanel {
 		player = new Player();
 		zombies = new ArrayList<Zombie>();
 		disparos = new ArrayList<Disparo>();
+		botiquines = new ArrayList<Botiquin>();
 	}
 	
 	void update() {
@@ -70,6 +79,9 @@ public class PanelGame extends JPanel {
 				for(Zombie zombie : zombies) {
 					zombie.left();
 				}
+				for(Botiquin botiquin : botiquines) {
+					botiquin.left();
+				}
 			}
 		}
 		if (input.isKeyDown(KeyEvent.VK_LEFT)) {
@@ -80,6 +92,9 @@ public class PanelGame extends JPanel {
 				fondo.left();
 				for(Zombie zombie : zombies) {
 					zombie.right();
+				}
+				for(Botiquin botiquin : botiquines) {
+					botiquin.right();
 				}
 			}
 		}
@@ -99,8 +114,9 @@ public class PanelGame extends JPanel {
 			player.estatico();
 		}
 		
+		
+		nacedisparo = ++nacedisparo % VECESDISPARO;
 		if (input.isKeyDown(KeyEvent.VK_SPACE)) {
-			nacedisparo = ++nacedisparo % VECESDISPARO;
 			if(nacedisparo==0) {
 				fondo.estatico();
 				player.disparar();
@@ -148,7 +164,29 @@ public class PanelGame extends JPanel {
 					break;
 					}
 				if(player.colision(zombie)) {
-					gameOver();
+					quitarVida();
+					break;
+				}
+			}
+			for(Botiquin botiquin : botiquines) {
+				if(botiquin.colision(player)) {
+					vidas+=1;
+					botiquines.remove(botiquin);
+					break;
+				}
+			}
+			
+			nacebotiquin = ++nacebotiquin % VECESBOTIQUIN;
+			if (nacebotiquin==0 && vidas<3) {
+				botiquin = new Botiquin();
+				botiquines.add(botiquin);
+				System.out.println("botiquin spawned");
+			}
+			
+			aceleracion = ++aceleracion % VECESACELERACION;
+			if(aceleracion==0) {
+				for(Zombie zombie : zombies) {
+					zombie.setSpeed(1);
 				}
 			}
 	}
@@ -158,9 +196,14 @@ public class PanelGame extends JPanel {
 		zombies.remove(zombie);
 	}
 	
-	private void gameOver() {
-		isRunning = false;
-		JOptionPane.showMessageDialog(this, "HAS SOBREVIVIDO: "+ronda+" RONDAS");
+	private void quitarVida() {
+		vidas--;
+		if(vidas<1) {
+			isRunning = false;
+			JOptionPane.showMessageDialog(this, "HAS SOBREVIVIDO: "+ronda+" RONDAS");
+		}else {
+			zombies.removeAll(zombies);
+		}
 	}
 
 	@Override
@@ -176,11 +219,16 @@ public class PanelGame extends JPanel {
 			for(Disparo disparo : disparos) {
 				disparo.draw(g2d);
 			}
+			for(Botiquin botiquin : botiquines) {
+				botiquin.draw(g2d);
+			}
 	}
 	
 	private void drawScore(Graphics2D g) {
 		g.setColor(Color.decode("#FF0000"));
 		g.drawString("Ronda:"+ronda, 650, 20);
+		g.setColor(Color.decode("#FF0000"));
+		g.drawString("Vidas:"+vidas, 20, 360);
 		
 	}
 	
