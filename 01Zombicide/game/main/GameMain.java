@@ -1,13 +1,20 @@
 package main;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.MalformedURLException;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import sprites.Fondo;
@@ -22,6 +29,8 @@ public class GameMain extends JFrame implements ActionListener {
 	private JButton btnFin;
 	private JButton btnStart;
 	private PanelGame panelGame;
+	private AudioClip bso;
+	private boolean map1=true;
 
 	/**
 	 * Launch the application.
@@ -41,16 +50,15 @@ public class GameMain extends JFrame implements ActionListener {
 		
 		// Panel Game
 		panelGame = new PanelGame();
-		
 		// Panel footer
 		JPanel panelFooter = new JPanel();
-		panelFooter.setBackground(Color.decode("#6A6DE2"));
+		panelFooter.setBackground(Color.decode("#3D0000"));
 		
 		btnStart = new JButton("Start");
 		btnStart.addActionListener(this);
 		panelFooter.add(btnStart);
 
-		btnChangeMap = new JButton("Change Map");
+		btnChangeMap = new JButton("Mapa 1");
 		btnChangeMap.addActionListener(this);
 		panelFooter.add(btnChangeMap);
 		
@@ -66,6 +74,8 @@ public class GameMain extends JFrame implements ActionListener {
 		container.add(panelGame, BorderLayout.CENTER);
 		container.add(panelFooter, BorderLayout.SOUTH);
 		setVisible(true);
+		loadSound();
+		bso.play();
 	}
 
 	@Override
@@ -77,6 +87,8 @@ public class GameMain extends JFrame implements ActionListener {
 			btnPlayPauseOnClick();
 		} else if (boton == btnFin) {
 			btnFinOnClick();
+		} else if(boton == btnChangeMap) {
+			btnChangeMapOnClick();
 		}
 	}
 
@@ -84,7 +96,9 @@ public class GameMain extends JFrame implements ActionListener {
 		panelGame.gameLoop.start();
 		panelGame.requestFocus();
 		btnStart.setEnabled(false);
+		btnChangeMap.setEnabled(false);
 		btnPlayPause.setEnabled(true);
+		panelGame.changeMap();
 	}
 
 	private void btnPlayPauseOnClick() {
@@ -98,6 +112,21 @@ public class GameMain extends JFrame implements ActionListener {
 	}
 	
 	private void btnChangeMapOnClick() {
-		//panelGame.
+		 panelGame.changeMap();
+		 if(map1) {
+			 btnChangeMap.setText("Mapa 2");
+		 }else
+			 btnChangeMap.setText("Mapa 1");
+		 map1=!map1;
 	}
+	
+	private void loadSound() {
+		try {
+			bso = Applet.newAudioClip(new File("assets/bso.wav").toURI().toURL());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

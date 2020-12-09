@@ -1,10 +1,14 @@
 package main;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -49,7 +53,10 @@ public class PanelGame extends JPanel {
 	private ArrayList<Botiquin> botiquines;
 	private final static int VECESACELERACION = 500;
 	private int aceleracion;
-	
+	private AudioClip shotsound;
+	private AudioClip hitsound;
+	private AudioClip zombiesound;
+	private AudioClip oneupsound;
 	
 	public PanelGame() {
 		super();
@@ -63,6 +70,8 @@ public class PanelGame extends JPanel {
 		zombies = new ArrayList<Zombie>();
 		disparos = new ArrayList<Disparo>();
 		botiquines = new ArrayList<Botiquin>();
+		loadSound();
+		posicionjugador = player.getX();
 	}
 	
 	void update() {
@@ -100,12 +109,12 @@ public class PanelGame extends JPanel {
 		}
 		
 		if (input.isKeyDown(KeyEvent.VK_UP)) {
-			fondo.estatico();
-			player.up();
+		//	fondo.estatico();
+		//	player.up();
 		}
 		if (input.isKeyDown(KeyEvent.VK_DOWN)) {
-			fondo.estatico();
-			player.down();
+		//	fondo.estatico();
+		//	player.down();
 		}
 		
 		
@@ -118,9 +127,11 @@ public class PanelGame extends JPanel {
 		nacedisparo = ++nacedisparo % VECESDISPARO;
 		if (input.isKeyDown(KeyEvent.VK_SPACE)) {
 			if(nacedisparo==0) {
+				shotsound.stop();
 				fondo.estatico();
 				player.disparar();
 				disparo = new Disparo(posicionjugador, player.getDerecha());
+				shotsound.play();
 				disparos.add(disparo);
 			}
 		}
@@ -142,6 +153,7 @@ public class PanelGame extends JPanel {
 		if (zombies.isEmpty()) {
 			nuevaoleada = ++nuevaoleada % tiempooleada;
 			ronda+=1;
+			zombiesound.play();
 			for(int i = 0 ; i< zombiesnacen ; i++) {
 				zombie = new Zombie(posicionjugador);
 				zombies.add(zombie);
@@ -171,6 +183,7 @@ public class PanelGame extends JPanel {
 			for(Botiquin botiquin : botiquines) {
 				if(botiquin.colision(player)) {
 					vidas+=1;
+					oneupsound.play();
 					botiquines.remove(botiquin);
 					break;
 				}
@@ -180,7 +193,6 @@ public class PanelGame extends JPanel {
 			if (nacebotiquin==0 && vidas<3) {
 				botiquin = new Botiquin();
 				botiquines.add(botiquin);
-				System.out.println("botiquin spawned");
 			}
 			
 			aceleracion = ++aceleracion % VECESACELERACION;
@@ -189,9 +201,11 @@ public class PanelGame extends JPanel {
 					zombie.setSpeed(1);
 				}
 			}
+			
 	}
 	
 	private void mataZombie(Zombie zombie, Disparo disparo) {
+		hitsound.play();
 		disparos.remove(disparo);
 		zombies.remove(zombie);
 	}
@@ -234,6 +248,23 @@ public class PanelGame extends JPanel {
 	
 	public void start() {
 		gameLoop.start();
+	}
+
+	
+	private void loadSound() {
+		try {
+			shotsound = Applet.newAudioClip(new File("assets/shotsound.wav").toURI().toURL());
+			hitsound = Applet.newAudioClip(new File("assets/hit.wav").toURI().toURL());
+			zombiesound = Applet.newAudioClip(new File("assets/zombiesound.wav").toURI().toURL());
+			oneupsound = Applet.newAudioClip(new File("assets/1upsound.wav").toURI().toURL());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void changeMap() {
+		fondo.changeMap();
 	}
 	
 	

@@ -9,13 +9,12 @@ public class Fondo {
 	private int x = util.Constant.ANCHOFONDO/2-util.Constant.WIDTHSCREEN/2;
 	
 	//Mapa1
-	//private int y= 0;
-	//Mapa 2
-	private int y = util.Constant.HEIGHTSCREEN-16;
+	private int y= -2;
 	
 	
 	private Image fondo = Assets.iifondo.getImage();
 	private int speed = 0;
+	private boolean map1=true;
 
 	public Fondo() {
 	}
@@ -49,7 +48,13 @@ public class Fondo {
 		speed = 0;
 	}
 	
-	public void setY(int y) {
-		this.y = y;
+	public void changeMap() {
+		if(map1) {
+			map1=false;
+			y=util.Constant.HEIGHTSCREEN-17;
+		}else {
+			map1=true;
+			y=(util.Constant.HEIGHTSCREEN-17)*2;
+		}
 	}
 }

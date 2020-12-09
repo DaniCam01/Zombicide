@@ -19,7 +19,7 @@ public class Assets {
     public static AudioClip pun;
       
     public static void loadAssets() {
-		iifondo = new ImageIcon("assets/2fondo.png");
+		iifondo = new ImageIcon("assets/fondo3.png");
 		iimario = new ImageIcon("assets/mariosheet.png");
 		iizombie = new ImageIcon("assets/zombiesheet.png");
 		iidisparo = new ImageIcon("assets/disparosheet.png");
