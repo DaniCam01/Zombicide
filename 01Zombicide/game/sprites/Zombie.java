@@ -16,7 +16,6 @@ public class Zombie {
 	private final static int COLUMNAS = 8;
 	private final static int FILAS = 6;
 	private int columnframe;
-	private Player personaje;
 	private boolean derecha;
 	private int velocidad;
 	private int speed=0;
@@ -47,10 +46,10 @@ public class Zombie {
 		
 	}
 	public void left() {
-		x-=(3+speed);
+		x+=(-3+speed);
 	}
 	public void right() {
-		x+=(3+speed);
+		x-=(3+speed);
 	}
 
 	public void update() {

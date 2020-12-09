@@ -3,7 +3,6 @@ package main;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -51,12 +50,13 @@ public class PanelGame extends JPanel {
 	private int nacebotiquin= 400;
 	private Botiquin botiquin;
 	private ArrayList<Botiquin> botiquines;
-	private final static int VECESACELERACION = 500;
+	private final static int VECESACELERACION = 1000;
 	private int aceleracion;
 	private AudioClip shotsound;
 	private AudioClip hitsound;
 	private AudioClip zombiesound;
 	private AudioClip oneupsound;
+	private int speed=1;
 	
 	public PanelGame() {
 		super();
@@ -198,7 +198,8 @@ public class PanelGame extends JPanel {
 			aceleracion = ++aceleracion % VECESACELERACION;
 			if(aceleracion==0) {
 				for(Zombie zombie : zombies) {
-					zombie.setSpeed(1);
+					zombie.setSpeed(speed);
+					speed++;
 				}
 			}
 			

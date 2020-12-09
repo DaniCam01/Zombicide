@@ -29,9 +29,7 @@ public class Player {
 		ALTO = Assets.iimario.getIconHeight() / FILAS;
 		mario = Assets.iimario.getImage();
 		x = util.Constant.WIDTHSCREEN/2-ANCHO/2;
-		y = 345;
-		y=335;
-		y=355;
+		y = 340;
 		limiti-=ANCHO;
 		limitd-=ANCHO/2;
 	}
