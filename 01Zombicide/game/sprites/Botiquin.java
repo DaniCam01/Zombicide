@@ -20,7 +20,12 @@ public class Botiquin {
 
 	public Botiquin() {
 		y = 375;
-		x =(int) (Math.random()*util.Constant.ANCHOFONDO);
+		x =(int) (Math.random()*800);
+		if( (int) (Math.random()*2) ==1) {
+			x*=-1;
+			x-=util.Constant.WIDTHSCREEN;
+		}else
+			x+=util.Constant.WIDTHSCREEN;
 		columnframe = 0;
 		ANCHO = Assets.iibotiquin.getIconWidth();
 		ALTO = Assets.iibotiquin.getIconHeight();

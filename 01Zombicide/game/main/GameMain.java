@@ -5,6 +5,7 @@ import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.omg.CORBA.Bounds;
+
 import util.Constant;
 
 @SuppressWarnings("serial")
@@ -22,25 +25,31 @@ public class GameMain extends JFrame implements ActionListener {
 	private Container container;
 	private JButton btnPlayPause;
 	private JButton btnChangeMap;
+	private JButton btnMute;
 	private JButton btnFin;
 	private JButton btnStart;
+	private JButton btnRestart;
 	private PanelGame panelGame;
 	private AudioClip bso;
 	private boolean map1=true;
+	private boolean music=true;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		new GameMain();
+		new GameMain(null);
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public GameMain() {
+	public GameMain(Rectangle bounds) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(10, 10, Constant.WIDTHSCREEN, Constant.HEIGHTSCREEN+60);
+		if(bounds!=null) {
+			setBounds(bounds);
+		}else
+			setBounds(100, 100, Constant.WIDTHSCREEN, Constant.HEIGHTSCREEN+60);
 		container = getContentPane();
 		container.setLayout(new BorderLayout(0, 0));
 		
@@ -58,10 +67,18 @@ public class GameMain extends JFrame implements ActionListener {
 		btnChangeMap.addActionListener(this);
 		panelFooter.add(btnChangeMap);
 		
+		btnMute = new JButton("Stop Music");
+		btnMute.addActionListener(this);
+		panelFooter.add(btnMute);
+		
 		btnPlayPause = new JButton("Play/Pause");
 		btnPlayPause.addActionListener(this);
 		btnPlayPause.setEnabled(false);
 		panelFooter.add(btnPlayPause);
+		
+		btnRestart = new JButton("Restart");
+		btnRestart.addActionListener(this);
+		panelFooter.add(btnRestart);
 
 		btnFin = new JButton("Fin");
 		btnFin.addActionListener(this);
@@ -71,7 +88,7 @@ public class GameMain extends JFrame implements ActionListener {
 		container.add(panelFooter, BorderLayout.SOUTH);
 		setVisible(true);
 		loadSound();
-		bso.play();
+		bso.loop();
 	}
 
 	@Override
@@ -85,7 +102,30 @@ public class GameMain extends JFrame implements ActionListener {
 			btnFinOnClick();
 		} else if(boton == btnChangeMap) {
 			btnChangeMapOnClick();
+		} else if(boton == btnMute) {
+			btnMuteOnClick();
+		} else if(boton == btnRestart) {
+			btnRestartOnClick();
 		}
+	}
+
+	private void btnRestartOnClick() {
+		new GameMain(this.getBounds());
+		panelGame.isRunning = false;
+		bso.stop();
+		this.dispose();
+	}
+
+	private void btnMuteOnClick() {
+		if(music) {
+			bso.stop();
+			btnMute.setText("Play Music");
+		}else {
+			bso.loop();
+			btnMute.setText("Stop Music");
+		}
+		music=!music;
+		panelGame.requestFocus();
 	}
 
 	private void btnStartOnClick() {

@@ -14,14 +14,14 @@ public class Zombie {
 	protected int ANCHO;
 	protected int ALTO;
 	private final static int COLUMNAS = 8;
-	private final static int FILAS = 6;
+	private final static int FILAS = 12;
 	private int columnframe;
 	private boolean derecha;
 	private int velocidad;
 	private int speed=0;
 
-	public Zombie(int posicionjugador) {
-		x = (int)((Math.random()*1000)+500);
+	public Zombie(int posicionjugador, int speed) {
+		x = (int)((Math.random()*800)+500);
 		int negativePositive = (int)(Math.random()*2);
 		y = 345;
 		if(negativePositive==0) {
@@ -36,20 +36,30 @@ public class Zombie {
 		ANCHO = Assets.iizombie.getIconWidth() / COLUMNAS;
 		ALTO = Assets.iizombie.getIconHeight() / FILAS;
 		zombie = Assets.iizombie.getImage();
+		if(speed+velocidad < 4) {
+			this.speed = speed;
+		}else {
+			if((int)Math.random()*5 == 1) {
+				this.speed = speed;
+			}else
+				velocidad = 3;
+		}
 	}
 	public void moove(){
-		rowFrame = 4;
 		if(derecha) {
-			x+=velocidad;
-		}else
-			x-=velocidad;
-		
+			x+=velocidad+speed;
+			rowFrame = 4;
+		}else {
+			x-=(velocidad+speed);
+			rowFrame = 10;
+		}
 	}
+	
 	public void left() {
-		x+=(-3+speed);
+		x-=3;
 	}
 	public void right() {
-		x-=(3+speed);
+		x+=3;
 	}
 
 	public void update() {

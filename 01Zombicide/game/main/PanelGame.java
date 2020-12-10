@@ -46,17 +46,18 @@ public class PanelGame extends JPanel {
 	private final static int VECESDISPARO = 20;
 	private boolean salir=false;
 	private int vidas = 1;
-	private final static int VECESBOTIQUIN = 2000;
+	private final static int VECESBOTIQUIN = 100;
 	private int nacebotiquin= 400;
 	private Botiquin botiquin;
 	private ArrayList<Botiquin> botiquines;
-	private final static int VECESACELERACION = 1000;
+	private final static int VECESACELERACION = 2000;
 	private int aceleracion;
 	private AudioClip shotsound;
 	private AudioClip hitsound;
 	private AudioClip zombiesound;
 	private AudioClip oneupsound;
-	private int speed=1;
+	private AudioClip deathsound;
+	private int speed=0;
 	
 	public PanelGame() {
 		super();
@@ -123,10 +124,12 @@ public class PanelGame extends JPanel {
 			player.estatico();
 		}
 		
-		
+		if(nacedisparo!=0) {
 		nacedisparo = ++nacedisparo % VECESDISPARO;
+		}
 		if (input.isKeyDown(KeyEvent.VK_SPACE)) {
 			if(nacedisparo==0) {
+				nacedisparo = ++nacedisparo % VECESDISPARO;
 				shotsound.stop();
 				fondo.estatico();
 				player.disparar();
@@ -155,7 +158,7 @@ public class PanelGame extends JPanel {
 			ronda+=1;
 			zombiesound.play();
 			for(int i = 0 ; i< zombiesnacen ; i++) {
-				zombie = new Zombie(posicionjugador);
+				zombie = new Zombie(posicionjugador, speed);
 				zombies.add(zombie);
 			}
 			zombiesnacen+=2;
@@ -190,15 +193,14 @@ public class PanelGame extends JPanel {
 			}
 			
 			nacebotiquin = ++nacebotiquin % VECESBOTIQUIN;
-			if (nacebotiquin==0 && vidas<3) {
+			if (nacebotiquin==0 && botiquines.size()+vidas<3) {
 				botiquin = new Botiquin();
 				botiquines.add(botiquin);
 			}
 			
 			aceleracion = ++aceleracion % VECESACELERACION;
 			if(aceleracion==0) {
-				for(Zombie zombie : zombies) {
-					zombie.setSpeed(speed);
+				if(speed<3) {
 					speed++;
 				}
 			}
@@ -213,6 +215,7 @@ public class PanelGame extends JPanel {
 	
 	private void quitarVida() {
 		vidas--;
+		deathsound.play();;
 		if(vidas<1) {
 			isRunning = false;
 			JOptionPane.showMessageDialog(this, "HAS SOBREVIVIDO: "+ronda+" RONDAS");
@@ -257,7 +260,8 @@ public class PanelGame extends JPanel {
 			shotsound = Applet.newAudioClip(new File("assets/shotsound.wav").toURI().toURL());
 			hitsound = Applet.newAudioClip(new File("assets/hit.wav").toURI().toURL());
 			zombiesound = Applet.newAudioClip(new File("assets/zombiesound.wav").toURI().toURL());
-			oneupsound = Applet.newAudioClip(new File("assets/1upsound.wav").toURI().toURL());
+			oneupsound = Applet.newAudioClip(new File("assets/oneup.wav").toURI().toURL());
+			deathsound = Applet.newAudioClip(new File("assets/deathsound.wav").toURI().toURL());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

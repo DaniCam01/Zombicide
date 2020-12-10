@@ -23,11 +23,11 @@ public class Disparo {
 
 	public Disparo(int posicionjugador, boolean derecha) {
 		this.derecha = derecha;
-		y = 375;
+		y = 370;
 		if(derecha) {
-			x = posicionjugador+35;
+			x = posicionjugador+25;
 		}else {
-			x= posicionjugador-5;
+			x= posicionjugador-15;
 		}
 		columnframe = 0;
 		ANCHO = Assets.iidisparo.getIconWidth()/COLUMNAS;
