@@ -20,8 +20,9 @@ public class Botiquin {
 
 	public Botiquin() {
 		y = 375;
-		x =(int) (Math.random()*800);
-		if( (int) (Math.random()*2) ==1) {
+		x = (int)((Math.random()*800));
+		int random = (int) Math.random()*2;
+		if(random ==1) {
 			x*=-1;
 			x-=util.Constant.WIDTHSCREEN;
 		}else

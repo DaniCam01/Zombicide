@@ -57,4 +57,8 @@ public class Fondo {
 			y=(util.Constant.HEIGHTSCREEN-17)*2;
 		}
 	}
+	
+	public int getX() {
+		return x;
+	}
 }

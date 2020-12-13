@@ -23,7 +23,7 @@ public class Zombie {
 	public Zombie(int posicionjugador, int speed) {
 		x = (int)((Math.random()*800)+500);
 		int negativePositive = (int)(Math.random()*2);
-		y = 345;
+		y = 340;
 		if(negativePositive==0) {
 			derecha = true;
 			x = posicionjugador-x;

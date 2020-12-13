@@ -81,6 +81,14 @@ public class Player {
 			limite=false;
 		}else
 			limite = true;
+		
+		if(x==limitd) {
+			limiti=util.Constant.WIDTHSCREEN/2-100; 
+			limiti-=ANCHO;
+		}else if(x==limiti) {
+			limitd = util.Constant.WIDTHSCREEN/2+100;
+			limitd-=ANCHO/2;
+		}
 	}
 	
 	public void disparar(){
@@ -116,10 +124,21 @@ public class Player {
 		return derecha;
 	}
 	
+	public int getAncho() {
+		return ANCHO;
+	}
+	
 	public boolean colision(Zombie zombie) {
 		Rectangle recPersonaje = new Rectangle(x , y, ANCHO, ALTO);
 		Rectangle recZombie = new Rectangle(zombie.x, zombie.y, zombie.ANCHO, zombie.ALTO );
 		return recPersonaje.intersects(recZombie);
+	}
+	public void unlockLeft() {
+		limiti = 0;
+	}
+	
+	public void unlockRight() {
+		limitd = util.Constant.WIDTHSCREEN-(ANCHO+10);
 	}
 
 }

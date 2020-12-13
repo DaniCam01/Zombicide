@@ -20,6 +20,7 @@ import sprites.Fondo;
 import sprites.Player;
 import sprites.Zombie;
 import util.Assets;
+import util.Constant;
 
 @SuppressWarnings("serial")
 public class PanelGame extends JPanel {
@@ -46,7 +47,7 @@ public class PanelGame extends JPanel {
 	private final static int VECESDISPARO = 20;
 	private boolean salir=false;
 	private int vidas = 1;
-	private final static int VECESBOTIQUIN = 100;
+	private final static int VECESBOTIQUIN = 2000;
 	private int nacebotiquin= 400;
 	private Botiquin botiquin;
 	private ArrayList<Botiquin> botiquines;
@@ -58,6 +59,7 @@ public class PanelGame extends JPanel {
 	private AudioClip oneupsound;
 	private AudioClip deathsound;
 	private int speed=0;
+	private boolean limitPantalla=false;
 	
 	public PanelGame() {
 		super();
@@ -84,7 +86,7 @@ public class PanelGame extends JPanel {
 			fondo.estatico();
 			 player.right();
 			 posicionjugador = player.getX();
-			if(player.limite) {
+			if(player.limite && !limitPantalla) {
 				fondo.right();
 				for(Zombie zombie : zombies) {
 					zombie.left();
@@ -98,7 +100,7 @@ public class PanelGame extends JPanel {
 			fondo.estatico();
 			player.left();
 			posicionjugador = player.getX();
-			if(player.limite) {
+			if(player.limite && !limitPantalla) {
 				fondo.left();
 				for(Zombie zombie : zombies) {
 					zombie.right();
@@ -204,6 +206,19 @@ public class PanelGame extends JPanel {
 					speed++;
 				}
 			}
+			
+			if(fondo.getX()==0) {
+				player.unlockLeft();
+			}
+			
+			if(fondo.getX()==Constant.ANCHOFONDO-Constant.WIDTHSCREEN) {
+				player.unlockRight();
+			}
+			
+			if(posicionjugador==0 || posicionjugador==util.Constant.WIDTHSCREEN-(player.getAncho()+10)){
+				limitPantalla = true;
+			}else
+				limitPantalla = false;
 			
 	}
 	
